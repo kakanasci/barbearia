@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 0 = Domingo, 1 = Segunda, ..., 6 = Sábado
 
         // Bloquear Domingo (0) e Segunda (1)
-        if (dayOfWeek === 0 || dayOfWeek === 2) {
+        if (dayOfWeek === 0 || dayOfWeek === 1) {
             const option = document.createElement("option");
             option.textContent = "Indisponível neste dia";
             option.disabled = true;
