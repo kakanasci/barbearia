@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Précario - Barbearia João</title>
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+   <header class="simple-header">
+    <img src="images/logo.png" alt="Logo da Barbearia" class="logo-header" />
+  </header>
+
+  <!-- ... (mantenha a seção de preços igual) ... -->
+  
+  <section id="booking">
+    <div class="booking-container" data-aos="fade-up">
+      <h2>Agendamento</h2>
+      
+      <form id="bookingForm">
+        <!-- ... (mantenha todos os campos do formulário iguais) ... -->
+        <button type="submit">Confirmar Agendamento</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    // Inicializa AOS
+    AOS.init({ duration: 1000, once: true });
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCs6C-IroGVlIqCUa6XPvYliTmlVzaPgyU",
+      authDomain: "bairros-c5d5b.firebaseapp.com",
+      databaseURL: "https://bairros-c5d5b-default-rtdb.firebaseio.com",
+      projectId: "bairros-c5d5b",
+      storageBucket: "bairros-c5d5b.appspot.com",
+      messagingSenderId: "765859348286",
+      appId: "1:765859348286:web:bdc83cc3277ebc9f95766f",
+      measurementId: "G-6C2NTSSVQ0"
+    };
+
+    // Inicializa o Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Função para enviar agendamento para o Firebase
+    async function enviarAgendamento(agendamento) {
+      try {
+        const { selectedDate, barber, selectedTime } = agendamento;
+        const agendamentoRef = database.ref(`agendamentos/${selectedDate}/${barber}/${selectedTime}`);
+        
+        await agendamentoRef.set(agendamento);
+        return true;
+      } catch (error) {
+        console.error("Erro ao enviar agendamento:", error);
+        return false;
+      }
+    }
+
+    // Manipulador do formulário
+    document.getElementById("bookingForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const selectedDate = document.getElementById("dateSelect").value;
+      const selectedTime = document.getElementById("timeSelect").value;
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const service = document.getElementById("service").value;
+      let barber = document.getElementById("barber").value;
+      const payment = document.getElementById("paymentMethod").value;
+
+      // Validações básicas
+      if (!selectedDate || !selectedTime || !name || !phone || !service) {
+        alert("Por favor, preencha todos os campos obrigatórios!");
+        return;
+      }
+
+      // Se o barbeiro for "aleatório", precisamos verificar disponibilidade
+      if (barber === "aleatorio") {
+        const barbers = ["João Dias", "Rodrigo Lobo"];
+        let barbeiroDisponivel = null;
+        
+        for (const b of barbers) {
+          const snapshot = await database.ref(`agendamentos/${selectedDate}/${b}/${selectedTime}`).once('value');
+          if (!snapshot.exists()) {
+            barbeiroDisponivel = b;
+            break;
+          }
+        }
+        
+        if (!barbeiroDisponivel) {
+          alert("Não há barbeiros disponíveis para este horário. Por favor, escolha outro horário.");
+          return;
+        }
+        
+        barber = barbeiroDisponivel;
+      } else {
+        // Verificar disponibilidade para barbeiro específico
+        const snapshot = await database.ref(`agendamentos/${selectedDate}/${barber}/${selectedTime}`).once('value');
+        if (snapshot.exists()) {
+          alert("Este horário já está reservado. Por favor, escolha outro horário.");
+          return;
+        }
+      }
+
+      // Criar objeto de agendamento
+      const agendamento = {
+        name,
+        phone,
+        email,
+        service,
+        barber,
+        payment,
+        selectedDate,
+        selectedTime,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      };
+
+      // Enviar para o Firebase
+      const enviado = await enviarAgendamento(agendamento);
+      
+      if (enviado) {
+        alert("Agendamento realizado com sucesso!");
+        this.reset();
+      } else {
+        alert("Ocorreu um erro ao agendar. Por favor, tente novamente.");
+      }
+    });
+
+    // ... (mantenha as outras funções como toggleMbwayDetails, etc) ...
+  </script>
+</body>
+</html>
