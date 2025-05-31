@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="simple-header">
+        
+        <img src="/images/logo.png" alt="Logo da Barbearia" class="logo-header" />
+    </header>
+    <div>
+    <a href="index.html" class="btn-back">Voltar</a>
+
+        <h2>Nossos Cortes</h2>
+    <div class="gallery-container">
+
+        <div class="image-frame" data-aos="zoom-in">
+            <img src="images/bj1.jpg" alt="Ambiente da Barbearia" />
+        </div>
+        <div class="image-frame" data-aos="zoom-in" data-aos-delay="100">
+            <img src="images/bj2.jpg" alt="Serviços de Barbearia" />
+        </div>
+        <div class="image-frame" data-aos="zoom-in" data-aos-delay="200">
+            <img src="images/bj3.jpg" alt="Clientes Satisfeitos" />
+        </div>
+        <div class="image-frame" data-aos="zoom-in">
+            <img src="images/b1.jpg" alt="Ambiente da Barbearia" />
+        </div>
+        <div class="image-frame" data-aos="zoom-in" data-aos-delay="100">
+            <img src="images/b2.jpg" alt="Serviços de Barbearia" />
+        </div>
+        <div class="image-frame" data-aos="zoom-in" data-aos-delay="200">
+            <img src="images/b3.jpg" alt="Clientes Satisfeitos" />
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script type="module" src="script.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+
+    <script>
+        const header = document.querySelector('.simple-header');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 50) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
+</body>
+
+</html>

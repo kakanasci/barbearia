@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Précario - Barbearia João</title>
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .login-container {
+      text-align: center;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 8px;
+      color: #ff1f0f;
+    }
+    
+    .login-btn {
+      background-color: #e6b800;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .login-btn:hover {
+      background-color: #c9a100;
+      color: white;
+    }
+    
+    .login-btn img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      background: white;
+      padding: 5px;
+      border-radius: 3px;
+    }
+    
+    .logged-in-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .logged-in-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .logout-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+   <header class="simple-header">
+    <img src="images/logo.png" alt="Logo da Barbearia" class="logo-header" />
+  </header>
+
+ <section id="prices" class="section-dark">
+    <a href="index.html" class="btn-back">Voltar</a>
+    <h2 data-aos="fade-up">Précario</h2>
+    <div class="services">
+      <div class="service-card" data-aos="fade-up">
+        <h3>Corte cabelo degrade</h3>
+        <p>15€</p>
+        <p>Duração: 40min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+        <h3>Degrade + Barba</h3>
+        <p>19€</p>
+        <p>Duração: 60min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte de Criança</h3>
+        <p>12€</p>
+        <p>Duração: 30min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte + Barba</h3>
+        <p>17€</p>
+        <p>Duração: 40min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte + Navalha</h3>
+        <p>10€</p>
+        <p>Duração: 20min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte de 1 pente</h3>
+        <p>8€</p>
+        <p>Duração: 15min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte + Lavar</h3>
+        <p>15€</p>
+        <p>Duração: 40min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Barba</h3>
+        <p>7€</p>
+        <p>Duração: 25min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Barba terapia</h3>
+        <p>10€</p>
+        <p>Duração: 35min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Lavar e pentear</h3>
+        <p>8€</p>
+        <p>Duração: 15min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Gel e outros</h3>
+        <p>4€</p>
+        <p>Duração: 15min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Outros detalhes</h3>
+        <p>3€</p>
+        <p>Duração: 15min</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Corte + madeixas ou platinado</h3>
+        <p>35€ ou 50€</p>
+        <p>sobre consulta</p>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Acréscimo após as 20h</h3>
+      </div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+        <h3>Acréscimo feriados</h3>
+        <p>5€</p>
+      </div>
+    </div>
+  </section>  
+  
+  <section id="booking">
+    <div class="booking-container" data-aos="fade-up">
+      <h2>Agendamento</h2>
+      
+      <!-- Área de login -->
+      <div id="loginArea" class="login-container">
+        <p>Para agendar, faça login com sua conta Google:</p>
+        <button id="googleLoginBtn" class="login-btn">
+          Login com Google
+        </button>
+      </div>
+      
+      <!-- Informações do usuário logado -->
+      <div id="userInfo" class="logged-in-info hidden">
+        <img id="userPhoto" src="" alt="Foto do usuário">
+        <span id="userName"></span>
+        <button id="logoutBtn" class="logout-btn">Sair</button>
+      </div>
+      
+      <!-- Formulário de agendamento (inicialmente oculto) -->
+      <form id="bookingForm" class="hidden">
+        <input type="text" id="name" name="name" placeholder="Seu nome completo" required />
+        <input type="tel" id="phone" name="phone" placeholder="WhatsApp (ex: +351 9XX XXX XXX)" required />
+        <input type="email" id="email" name="email" placeholder="Seu e-mail" required />
+
+        <select id="service" name="service" required>
+          <option value="">Selecione o serviço</option>
+          <option value="Corte cabelo degrade">Corte cabelo degrade - 15€</option>
+          <option value="Degrade + Barba">Degrade + Barba - 19€</option>
+          <option value="Corte de Criança">Corte de Criança - 12€</option>
+          <option value="Corte + Barba">Corte + Barba - 17€</option>
+          <option value="Corte + Navalha">Corte + Navalha - 10€</option>
+          <option value="Corte de 1 pente">Corte de 1 pente - 8€</option>
+          <option value="Corte + Lavar">Corte + Lavar - 15€</option>
+          <option value="Barba">Barba - 7€</option>
+          <option value="Barba terapia">Barba terapia - 10€</option>
+          <option value="Lavar e pentear">Lavar e pentear - 8€</option>
+          <option value="Gel e outros">Gel e outros - 4€</option>
+          <option value="Outros detalhes">Outros detalhes - 3€</option>
+          <option value="Corte + madeixas ou platinado">Corte + madeixas ou platinado (sobre consulta)</option>
+        </select>
+
+        <select id="barber" name="barber" required>
+          <option value="">Selecione o barbeiro</option>
+          <option value="João Dias">João Dias</option>
+          <option value="Rodrigo Lobo">Rodrigo Lobo</option>
+          <option value="aleatorio">Aleatorio</option>
+        </select>
+
+        <div class="custom-date-wrapper" onclick="document.getElementById('dateSelect').showPicker()">
+          <input type="date" id="dateSelect" name="dateSelect" required />
+        </div>
+
+        <select id="timeSelect" name="timeSelect" required>
+          <option value="">Selecione um horário</option>
+        </select>
+
+        <select id="paymentMethod" name="paymentMethod" required onchange="toggleMbwayDetails()">
+          <option value="">Método de Pagamento</option>
+          <option value="barbearia">Pagar na Barbearia</option>
+          <option value="mbway">Pagar via MB WAY</option>
+        </select>
+
+        <div id="mbwayDetails" style="display: none;">
+          <p><strong>Número MB WAY:</strong> 912 100 746</p>
+          <p><strong>IBAN:</strong> PT50 0193 0000 10510490351 50</p>
+          <label for="mbwayProof">Envie o comprovativo (Apenas Imagem):</label>
+          <input type="file" id="mbwayProof" accept="image/*,.pdf" />
+        </div>
+
+        <button type="submit">Confirmar Agendamento</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    // Inicializa AOS
+    AOS.init({ duration: 1000, once: true });
+
+    // Configuração do Firebase
+ const firebaseConfig = {
+  apiKey: "AIzaSyCs6C-IroGVlIqCUa6XPvYliTmlVzaPgyU",
+  authDomain: "bairros-c5d5b.firebaseapp.com",
+  databaseURL: "https://bairros-c5d5b-default-rtdb.firebaseio.com",
+  projectId: "bairros-c5d5b",
+  storageBucket: "bairros-c5d5b.firebasestorage.app",
+  messagingSenderId: "765859348286",
+  appId: "1:765859348286:web:bdc83cc3277ebc9f95766f",
+  measurementId: "G-6C2NTSSVQ0"
+};
+
+    // Inicializa o Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Referência para o serviço de autenticação
+    const auth = firebase.auth();
+    
+    // Elementos da UI
+    const loginArea = document.getElementById('loginArea');
+    const userInfo = document.getElementById('userInfo');
+    const bookingForm = document.getElementById('bookingForm');
+    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userName = document.getElementById('userName');
+    const userPhoto = document.getElementById('userPhoto');
+    
+    // Observador de estado de autenticação
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // Usuário está logado
+        loginArea.classList.add('hidden');
+        userInfo.classList.remove('hidden');
+        bookingForm.classList.remove('hidden');
+        
+        // Preenche os campos do formulário com dados do usuário
+        document.getElementById('name').value = user.displayName || '';
+        document.getElementById('email').value = user.email || '';
+        
+        // Mostra informações do usuário
+        userName.textContent = user.displayName || 'Usuário';
+        if (user.photoURL) {
+          userPhoto.src = user.photoURL;
+        }
+      } else {
+        // Usuário não está logado
+        loginArea.classList.remove('hidden');
+        userInfo.classList.add('hidden');
+        bookingForm.classList.add('hidden');
+      }
+    });
+    
+    // Login com Google
+    // Login com Google - Modificado para sempre pedir seleção de conta
+googleLoginBtn.addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({
+    prompt: 'select_account' // Isso força a seleção de conta
+  });
+  
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      console.log('Usuário logado:', result.user);
+    })
+    .catch((error) => {
+      console.error('Erro no login:', error);
+      alert('Erro ao fazer login. Por favor, tente novamente.');
+    });
+});
+    
+    // Logout
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut()
+        .then(() => {
+          console.log('Usuário deslogado');
+        })
+        .catch((error) => {
+          console.error('Erro no logout:', error);
+        });
+    });
+
+    // Função para carregar horários disponíveis
+    document.getElementById('dateSelect').addEventListener('change', function() {
+      const timeSelect = document.getElementById('timeSelect');
+      timeSelect.innerHTML = '<option value="">Selecione um horário</option>';
+      
+      // Horários de exemplo (substitua por sua lógica real)
+      const availableTimes = [
+        '09:00', '09:30',
+        '10:00', '10:30',
+        '11:00', '11:30',
+        '12:00', '12:30',
+        '13:30', '13:30',
+        '14:00', '14:30',
+        '15:00', '15:30',
+        '16:00', '16:30',
+        '17:00', '17:30',
+        '18:00'
+      ];
+      
+      availableTimes.forEach(time => {
+        const option = document.createElement('option');
+        option.value = time;
+        option.textContent = time;
+        timeSelect.appendChild(option);
+      });
+    });
+
+    function toggleMbwayDetails() {
+      const method = document.getElementById("paymentMethod").value;
+      const mbwayDetails = document.getElementById("mbwayDetails");
+      mbwayDetails.style.display = method === "mbway" ? "block" : "none";
+    }
+
+    // Função para preencher o select 'service' ao clicar no card
+    document.querySelectorAll('.service-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const serviceName = card.querySelector('h3').textContent.trim();
+        const selectService = document.getElementById('service');
+
+        for (let option of selectService.options) {
+          if (option.value === serviceName) {
+            selectService.value = option.value;
+            break;
+          }
+        }
+
+        selectService.focus();
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Form submission
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Agendamento enviado com sucesso! Entraremos em contato para confirmar.');
+      this.reset();
+    });
+  </script>
+  
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    const header = document.querySelector('.simple-header');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 50) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+      lastScrollY = window.scrollY;
+    });
+  </script>
+</body>
+</html>

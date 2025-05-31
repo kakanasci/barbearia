@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Barbearia João</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+  <!-- AOS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <!-- Estilo principal -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="simple-header">
+    <img src="/images/logo.png" alt="Logo da Barbearia" class="logo-header" />
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <h2>Estilo que Reflete Sua Personalidade</h2>
+      <p>Experiência premium em cuidados masculinos</p>
+      <div class="bottoms">
+        <a href="imagens.html" class="hero-cta">Fotos</a>
+        <a href="agendar.html" class="hero-cta">Agendar Horário</a>
+        <a href="contatos.html" class="hero-cta">Contatos</a>
+
+      </div>
+    </div>
+
+  </section>
+  <!-- Equipe -->
+  <section id="team" class="section-dark">
+    <h2 data-aos="fade-up">Nossa Equipe</h2>
+    <div class="team-container">
+      <div class="team-member" data-aos="zoom-in">
+        <img src="images/dias.jpg" alt="Barbeiro João">
+        <h3>João Dias</h3>
+        <p>Barbeiro</p>
+      </div>
+      <div class="team-member" data-aos="zoom-in" data-aos-delay="100">
+        <img src="images/lobo.jpg" alt="Barbeiro Lucas">
+        <h3>Rodrigo Lobo</h3>
+        <p>Barbeiro</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="about" class="section-dark">
+    <div class="about-content">
+      <div class="about-text" data-aos="fade-right">
+        <h2>Sobre Nós</h2>
+        <p>Desde 2002, nossa missão é transformar cada corte em uma experiência única. Aqui, tradição e estilo andam
+          lado a lado para oferecer o melhor atendimento, com serviços de qualidade, ambiente descontraído e
+          profissionais apaixonados pelo que fazem.</p>
+        <p>Sinta-se em casa, escolha seu estilo e deixe o resto com a gente.
+          Estamos prontos para cuidar do seu visual com excelência e aquele toque especial que só a Barbearia João 2002
+          tem!</p>
+        <p>✂️ Agende seu horário e venha viver essa experiência!</p>
+      </div>
+      <div class="about-image" data-aos="fade-left">
+        <img src="images/piplog.jpg" alt="Equipe da Barbearia" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Feedbacks -->
+  <section id="feedbacks" class="section-dark">
+    <h2 data-aos="fade-up">O que nossos clientes dizem</h2>
+    <div class="feedback-container">
+      <div class="feedback-card" data-aos="fade-up">
+        <p>"Fui super bem atendido, o corte ficou perfeito!"</p>
+        <h4>- Pedro R.</h4>
+      </div>
+      <div class="feedback-card" data-aos="fade-up" data-aos-delay="100">
+        <p>"Ambiente top e barbeiros muito profissionais. Recomendo demais!"</p>
+        <h4>- Bruno L.</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>© 2025 Barbearia João - Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script type="module" src="script.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
+
+  <script>
+    const header = document.querySelector('.simple-header');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 50) {
+        header.classList.add('hidden');
+      } else {
+        header.classList.remove('hidden');
+      }
+      lastScrollY = window.scrollY;
+    });
+  </script>
+
+</body>
+
+</html>
