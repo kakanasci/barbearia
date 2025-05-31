@@ -106,7 +106,7 @@ a:hover {
 }
 
 .bottoms a {
-  padding: 0.8rem 1.5rem;
+  padding:5px ;
   border: 2px solid var(--yellow);
   color: var(--yellow);
   background-color: transparent;
@@ -287,31 +287,26 @@ form {
     margin-bottom: 2rem;
     padding: 1.5rem 1rem;
   }
-    .bottoms {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    flex-direction: row;
-    justify-content: center;
-    gap:2;           /* sem gap para facilitar o cálculo da largura */
-    flex-wrap: nowrap; /* impede quebra de linha */
-    width: 100%;       /* garante usar toda largura disponível */
-  }
+  .bottoms {
+  display: flex;
+  flex-wrap: nowrap;       /* nunca quebra linha */
+  justify-content: center;
+  width: 100%;
+}
 
-  .hero-cta {
-    width: 33.33%;      /* cada botão pega 1/3 da largura */
-    padding: 10px 5px;  /* espaçamento confortável */
-    box-sizing: border-box; /* padding conta dentro da largura */
-    white-space: normal;     /* permite quebra de linha no texto */
-    word-wrap: break-word;   /* força quebra de palavra se necessário */
-    overflow-wrap: break-word; /* para navegadores modernos */
-    text-align: center;
-    font-weight: bold;/* centraliza o texto */
-        font-size: 10px; /* 👈 diminui o tamanho da fonte */
-    padding: 2px 2px; /* 👈 padding menor */
+.hero-cta {
+  flex: 1;                         /* cada botão ocupa o mesmo espaço */
+  min-width: 0;                   /* permite encolher sem quebrar */
+  text-align: center;
+    font-size: 12px;                /* 👈 fonte fixa em 12px */
 
-    display: inline-block;   /* ajuda com largura e quebra */
-  }
+  font-weight: bold;
+  font-size: clamp(10px, 2.5vw, 16px);  /* texto diminui com a tela */
+  box-sizing: border-box;
+  white-space: normal;            /* permite quebra de linha interna */
+  word-break: break-word;
+}
+
 }
 
 
@@ -796,7 +791,7 @@ header h1 {
   text-shadow: 
     2px 2px 0px #ff1f0f,  /* Sombra principal vermelha */
     4px 4px 0px rgba(0, 0, 0, 0.2);  /* Sombra secundária para profundidade */
-  
+  color: #000;
   display: inline-block;  /* Para a sombra não vazar em elementos pai */
   position: relative;
   letter-spacing: 1px;  /* Melhora a legibilidade com sombra */
@@ -825,25 +820,14 @@ header h1 {
   margin-right: 8px;
 }
 h1, h2, h3 {
-  text-shadow: 
-    2px 2px 0px #ff1f0f,  /* Sombra principal vermelha */
-    4px 4px 0px rgba(0, 0, 0, 0.2);  /* Sombra secundária para profundidade */
-  
-  display: inline-block;  /* Para a sombra não vazar em elementos pai */
-  position: relative;
-  letter-spacing: 1px;  /* Melhora a legibilidade com sombra */
-  
-  /* Novas propriedades para garantir visibilidade em mobile */
-  color:#ffc107;
+  color: var(--yellow);
+  text-shadow: 3px 3px 10px #ff1f0f, 1px 1px 2px #ff1f0f;
 }
 
 /* Ajuste para telas pequenas */
 @media (max-width: 768px) {
   h1, h2, h3 {
-    text-shadow: 
-      1.5px 1.5px 0px #ff1f0f,
-      3px 3px 0px rgba(0, 0, 0, 0.2);
-      color:#ffc107;
-
-  }
+  color: var(--yellow);
+  text-shadow: 3px 3px 10px #ff1f0f, 1px 1px 2px #ff1f0f;
+}
 }
