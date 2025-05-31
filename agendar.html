@@ -270,6 +270,68 @@
   const bookingForm = document.getElementById("bookingForm");
   const userName = document.getElementById("user-name");
   const userPic = document.getElementById("user-pic");
+  // Variável para guardar o serviço clicado enquanto não estiver logado
+let selectedServiceBeforeLogin = null;
+
+// Função para preencher o serviço no formulário
+function fillService(serviceName) {
+  const serviceSelect = document.getElementById("service");
+  for (let option of serviceSelect.options) {
+    if (option.value === serviceName) {
+      serviceSelect.value = option.value;
+      break;
+    }
+  }
+}
+
+// Adicionar evento de clique em todos os cards de serviço
+document.querySelectorAll(".service-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const serviceName = card.querySelector("h3").innerText.trim();
+
+    if (!auth.currentUser) {
+      // Usuário NÃO está logado
+      selectedServiceBeforeLogin = serviceName;
+
+      // Mostrar a seção de login e formulário
+      loginContainer.classList.remove("hidden");
+      
+      // Scroll para a div de login/booking
+      loginContainer.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Usuário está logado, preencher o serviço diretamente
+      fillService(serviceName);
+
+      // Scroll para o formulário de agendamento
+      bookingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+});
+
+// Monitorar mudanças de estado do usuário logado
+auth.onAuthStateChanged(user => {
+  if (user) {
+    // Mostrar info do usuário
+    userInfo.classList.remove("hidden");
+    loginBtn.classList.add("hidden");
+    loginMsg.classList.add("hidden");
+    userName.textContent = user.displayName || "Usuário";
+    userPic.src = user.photoURL || "";
+
+    // Se tinha serviço selecionado antes do login, preencher o formulário e scroll para agendamento
+    if (selectedServiceBeforeLogin) {
+      fillService(selectedServiceBeforeLogin);
+      selectedServiceBeforeLogin = null;
+      bookingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  } else {
+    // Não logado, mostrar botão de login
+    userInfo.classList.add("hidden");
+    loginBtn.classList.remove("hidden");
+    loginMsg.classList.remove("hidden");
+  }
+});
+
 
   // Função para login via Google
   function login() {

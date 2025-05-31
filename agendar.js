@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             e.target.reset();
             mbwayDetails.style.display = "none";
-            alert("✅ Agendamento realizado com sucesso!");
+            alert("✅ Agendamento realizado com sucesso, aguarde o retorno no seu whatsapp!");
             generateTimes();
         } catch (error) {
             console.error("Erro ao agendar:", error);
