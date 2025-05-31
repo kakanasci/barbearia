@@ -77,13 +77,21 @@ a:hover {
   overflow: hidden;
   
 }
-
 .logo-header {
-  height: 180px;    /* altura igual à do header */
-  width: auto;  
-  top: 0;   /* largura ajusta proporcionalmente */
+  height: auto;         /* deixa a altura proporcional à largura */
+  max-height: 180px;    /* altura máxima no desktop */
+  max-width: 100%;      /* nunca ultrapassa a largura da tela */
+  width: auto;          /* largura automática proporcional */
   display: block;
-  margin: 0 auto;  /* centraliza horizontal se precisar */
+  margin: 0 auto;
+  object-fit: contain;  /* garante que a imagem mantenha proporção */
+}
+
+/* Opcional: ajuste extra para telas muito pequenas */
+@media (max-width: 400px) {
+  .logo-header {
+    max-height: 150px;  /* altura menor para telas pequenas */
+  }
 }
 
 .simple-header.hidden {
@@ -777,27 +785,55 @@ header h1 {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .contact {
-    padding: 1.5rem;
+    .contact {
+    max-width: 95%;      /* quase toda a largura da tela */
+    padding: 1.5rem;     /* menos padding para não ficar muito grande */
   }
+  .contact-item {
+  display: flex;
+  align-items: center;  /* Alinha verticalmente */
+  gap: 1rem;
+  padding: 1.2rem;
+  background-color: rgba(197, 166, 72, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
   
-  header h1 {
-    font-size: 2.2rem;
-  }
-  
-  .contact-info {
-    grid-template-columns: 1fr;
-      h1, h2, h3 {
-  text-shadow: 
-    2px 2px 0px #ff1f0f,  /* Sombra principal vermelha */
-    4px 4px 0px rgba(0, 0, 0, 0.2);  /* Sombra secundária para profundidade */
-  color: #000;
-  display: inline-block;  /* Para a sombra não vazar em elementos pai */
-  position: relative;
-  letter-spacing: 1px;  /* Melhora a legibilidade com sombra */
+  flex-wrap: nowrap;     /* Não quebra em várias linhas */
+  min-width: 0;          /* Permite o container encolher */
+  overflow-wrap: break-word; /* Quebra palavras se precisar */
 }
 
+.contact-icon {
+  font-size: 1.8rem;
+  color: var(--yellow);
+  min-width: 40px;   /* Ícone tem espaço fixo */
+  flex-shrink: 0;    /* Ícone não encolhe */
+  text-align: center;
+}
+
+.contact-text {
+  flex: 1 1 auto;   /* Texto ocupa espaço restante e encolhe se precisar */
+  min-width: 0;     /* Permite o texto encolher e quebrar linha */
+  white-space: normal;   /* Quebra linhas normalmente */
+  overflow-wrap: break-word; /* Quebra palavras longas */
+  word-break: break-word;
+}
+
+  
+  .contact-icon {
+    font-size: 1.5rem; /* um pouco menor */
+    min-width: 35px;
   }
+  
+  .contact-text strong {
+    font-size: 1rem;
+  }
+  
+  .contact-text p {
+    font-size: 0.9rem;
+  }
+
 }
 
 .whatsapp-btn {
