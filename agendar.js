@@ -73,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedDate = dateSelect.value;
         const selectedBarber = barberSelect.value;
         if (!selectedDate) return;
-
+   console.log("--- DEBUG ---");
+    console.log("Data selecionada:", selectedDate);
         timeSelect.innerHTML = '<option value="">Selecione um horário</option>';
 
         const [year, month, day] = selectedDate.split("-");
