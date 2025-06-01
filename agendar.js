@@ -119,7 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const payment = paymentMethod.value;
 
         // ⛔ Verifica se é domingo (0) ou segunda (1)
-        const selectedDay = new Date(selectedDate).getDay();
+        const [year, month, day] = selectedDate.split("-");
+        const selectedDay = new Date(year, month - 1, day).getDay();
         if (selectedDay === 0 || selectedDay === 1) {
             alert("❌ A barbearia está fechada aos domingos e segundas.");
             return;
